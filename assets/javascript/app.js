@@ -5,19 +5,21 @@ var apiKey = "RPaK9Z4sSu8wS60vAUOVtsfL2gAI98u0";	//Will need to use these GIPHY 
 //create starting array
 var folks = ["Tom Waits", "Cher", "Harrison Ford", "Barack Obama", "Will Smith", "Donald Trump", "Marilyn Monroe"];
 
-var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + folks + "&api_key=RPaK9Z4sSu8wS60vAUOVtsfL2gAI98u0";	
+function requestGifs(query) {
+var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey=" + apiKey + "&limit=5");	
 
-	//ajax GET request to queryURL
+	//ajax GET request to queryURL - needs to be called when a button is clicked
 	$.ajax({
 	 url: queryURL,
 	 method: "GET"		
 	})
 
-	//data has been received 
+	//data has been received - storing data inside an object called 'response'
 	.done(function(response){
+	console.log(queryURL);
 	console.log(response);
 	})
-
+}
 
 //function to create initial buttons
 function renderButtons(){
@@ -42,14 +44,14 @@ renderButtons();
 
 //when a  button is clicked
 $("body").on("click",".btn",function(){
-	//call the ajax search function
-
+	//call the ajax search function here?
+	requestGifs(this.id);
 	event.preventDefault();
 	//grab what is typed into box
 	var textBox = $("#input").val().trim(); //trim gets rid of extra white space
 	//add what is typed into the box as item in array
 	folks.push(folks);
-	//call render funtion
+	//call render funtion?
 	
 	
 	console.log("you clicked a button");
