@@ -6,7 +6,7 @@ var apiKey = "RPaK9Z4sSu8wS60vAUOVtsfL2gAI98u0";	//Will need to use these GIPHY 
 var folks = ["Tom Waits", "Cher", "Harrison Ford", "Barack Obama", "Will Smith", "Donald Trump", "Marilyn Monroe"];
 
 function requestGifs(query) {
-var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey=" + apiKey + "&limit=5");	
+var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey=" + apiKey + "&limit=10";	
 
 	//ajax GET request to queryURL - needs to be called when a button is clicked
 	$.ajax({
@@ -15,15 +15,15 @@ var queryURL = $.get("http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey
 	})
 
 	//data has been received - storing data inside an object called 'response'
-	.done(function(response){
+	.done(function(response) {
 	console.log(queryURL);
 	console.log(response);
-	})
-}
+	});
+};
 
 //function to create initial buttons
 function renderButtons(){
-	$("#buttonsGoHere").empty(); //so there won't be repeat buttons
+	$("#buttons-go-here").empty(); //so there won't be repeat buttons
 	//loop through array
 	for (var i = 0; i < folks.length; i++){
 		//dynamically create buttons for all items in array
@@ -35,43 +35,36 @@ function renderButtons(){
 		//button's text
 		a.text(folks[i]);
 		//inserting buttons into HTML
-		$("#buttonsGoHere").append(a);
+		$("#buttons-go-here").append(a);
 	}
 
 }
 
 renderButtons();
 
-//when a  button is clicked
-$("body").on("click",".btn",function(){
-	//call the ajax search function here?
-	requestGifs(this.id);
-	event.preventDefault();
-	//grab what is typed into box
-	var textBox = $("#input").val().trim(); //trim gets rid of extra white space
-	//add what is typed into the box as item in array
-	folks.push(folks);
-	//call render funtion?
+//when a  button is clicked - this is getting GIFs-----------need to call the ajax query here
+$("body").on("click",".folks",function(){
 	
+	requestGifs();
+
 	
 	console.log("you clicked a button");
 });
 
 
 //adding new buttons
-$("#addButton").on("click", function(event){
-	event.preventDefault();
+$("#add-button").submit(function(event){ 
 
     //grab html from what is typed into box
 	var textBox = $("#input").val().trim();
 
-    //add what is typed into box as item in array
-    folks.push(folks);	
+	//on submit, jquery to create new btn w/text from box, then append to where other btns are
 
-    //call render function
-    renderButtons();
-    search(folks);
 
+//?????????????????????????????
+//?????     requestGifs()
+
+	renderButtons();    //??????????
 
 });
 });
