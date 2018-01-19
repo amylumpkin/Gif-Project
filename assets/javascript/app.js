@@ -3,7 +3,7 @@ $(document).ready(function() {
 var apiKey = "RPaK9Z4sSu8wS60vAUOVtsfL2gAI98u0";	//Will need to use these GIPHY parameters: q, limit, rating
 
 //create starting array
-var folks = ["Tom Waits", "Cher", "Harrison Ford", "Barack Obama", "Will Smith", "Donald Trump", "Marilyn Monroe"];
+var topics = ["Tom Waits", "Cher", "Harrison Ford", "Barack Obama", "Will Smith", "Donald Trump", "Marilyn Monroe"];
 
 function requestGifs(query) {
 var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey=" + apiKey + "&limit=10";	
@@ -25,15 +25,15 @@ var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey=" + a
 function renderButtons(){
 	$("#buttons-go-here").empty(); //so there won't be repeat buttons
 	//loop through array
-	for (var i = 0; i < folks.length; i++){
+	for (var i = 0; i < topics.length; i++){
 		//dynamically create buttons for all items in array
 		var a = $("<button>");
 		//add class
-		a.addClass("folks");
+		a.addClass("topics");
 		//add attribute & value of array item at index i
-		a.attr("data-name", folks[i]);
+		a.attr("data-name", topics[i]);
 		//button's text
-		a.text(folks[i]);
+		a.text(topics[i]);
 		//inserting buttons into HTML
 		$("#buttons-go-here").append(a);
 	}
@@ -43,7 +43,7 @@ function renderButtons(){
 renderButtons();
 
 //when a  button is clicked - this is getting GIFs-----------need to call the ajax query here
-$("body").on("click",".folks",function(){
+$("body").on("click",".topics",function(){
 	
 	requestGifs();
 
