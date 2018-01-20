@@ -1,25 +1,7 @@
 $(document).ready(function() {
 
-var apiKey = "RPaK9Z4sSu8wS60vAUOVtsfL2gAI98u0";	//Will need to use these GIPHY parameters: q, limit, rating
-
 //create starting array
-var topics = ["Tom Waits", "Cher", "Harrison Ford", "Barack Obama", "Will Smith", "Donald Trump", "Marilyn Monroe"];
-
-function requestGifs(query) {
-var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + query + "&apiKey=" + apiKey + "&limit=10";	
-
-	//ajax GET request to queryURL - needs to be called when a button is clicked
-	$.ajax({
-	 url: queryURL,
-	 method: "GET"		
-	})
-
-	//data has been received - storing data inside an object called 'response'
-	.done(function(response) {
-	console.log(queryURL);
-	console.log(response);
-	});
-};
+var topics = ["tom waits", "marilyn monroe", "harrison ford", "barack obama", "donald trump"];
 
 //function to create initial buttons
 function renderButtons(){
@@ -31,7 +13,7 @@ function renderButtons(){
 		//add class
 		a.addClass("topics");
 		//add attribute & value of array item at index i
-		a.attr("data-name", topics[i]);
+		a.attr("data-search", topics[i]);
 		//button's text
 		a.text(topics[i]);
 		//inserting buttons into HTML
@@ -39,36 +21,55 @@ function renderButtons(){
 	}
 
 }
+//adding new buttons
+$("#add-button").submit(function(event){ 
+event.preventDefault();
+    //grab html from what is typed into box
+	var textBox = $("#input").val().trim();
+	topics.push(textBox);
+	renderButtons();
+	console.log(topics);
+});
 
 renderButtons();
 
-//when a  button is clicked - this is getting GIFs-----------need to call the ajax query here
-$("body").on("click",".topics",function(){
-	
-	requestGifs();
+//function gets the GIFs when a button is clicked
+	$(document).on("click", ".topics", function(){
+		var x = $(this).data("search");
+		console.log(x);
 
-	
-	console.log("you clicked a button");
+		var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + x + "&api_key=RPaK9Z4sSu8wS60vAUOVtsfL2gAI98u0&limit=10"; 
+		console.log(queryURL);
+
+		$.ajax({url:queryURL, method: "GET"})
+			.done(function(response){
+				console.log(response);
+				for (var i=0; i < response.data.length; i++){
+					$("#gifs-go-here").prepend("<p>Rating: " + response.data[i].rating+"<p>");
+					$("#gifs-go-here").prepend("<img src='" + response.data[i].images.downsized.url + "'>");
+				}
+			})
+				
+			});
+/*
+	//add still/animated thing here.....
+$(".gif").on("click", function() {
+  // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+  var state = $(this).attr("data-state");
+  
+  // If image is still, animate on click, else (if it's animated) make still on click.
+  if (state === "still") {
+    $(this).attr("src", $(this).attr("data-animate"));
+    $(this).attr("data-state", "animate");
+  } else {
+    $(this).attr("src", $(this).attr("data-still"));
+    $(this).attr("data-state", "still");
+  }
 });
+*/
 
 
-//adding new buttons
-$("#add-button").submit(function(event){ 
-
-    //grab html from what is typed into box
-	var textBox = $("#input").val().trim();
-
-	//on submit, jquery to create new btn w/text from box, then append to where other btns are
-
-
-//?????????????????????????????
-//?????     requestGifs()
-
-	renderButtons();    //??????????
-
-});
-});
-
+	});
 
 
 
