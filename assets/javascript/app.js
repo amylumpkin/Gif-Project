@@ -70,6 +70,3 @@ $(".gif").on("click", function() {
 
 
 	});
-
-
-
